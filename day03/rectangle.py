@@ -1,8 +1,8 @@
-width = 6 
-length = 8  
+width = int(input("Enter width: "))
+length = int(input("Enter height: "))
 
 area = width * length
-circumference = 2 * (width + length)
+print("Rectangle area: ", area)
 
-print("Area of rectangle:", area)
-print("Circumference of rectangle:", circumference)
+circumference = 2 * width + 2 * length
+print("Rectangle circumference: ", circumference)
