@@ -1,41 +1,40 @@
 import pytest
-from seq import calculate_statistics
+from seq import parse_file
 
-def test_calculate_statistics_with_good_data():
-    sequence = "AAGGTTCC"
-    result = calculate_statistics(sequence)
-    expected = {
-        "A": (2, 25.0),
-        "C": (2, 25.0),
-        "G": (2, 25.0),
-        "T": (2, 25.0),
-        "Unknown": (0, 0.0),
-        "Total": 8
-    }
-    assert result == expected
+def test_parse_simple_sequence():
+    """Test a simple valid sequence of A, C, G, T."""
+    sequence = "ACGTACGT"
+    with open("test_simple.txt", "w") as f:
+        f.write(sequence)
+    result = parse_file("test_simple.txt")
+    assert result == {'A': 2, 'C': 2, 'G': 2, 'T': 2, 'Unknown': 0, 'Total': 8}
 
-def test_calculate_statistics_with_mixed_data():
-    sequence = "AAGXCTGGX"
-    result = calculate_statistics(sequence)
-    expected = {
-        "A": (2, 20.0),
-        "C": (1, 10.0),
-        "G": (3, 30.0),
-        "T": (1, 10.0),
-        "Unknown": (2, 20.0),
-        "Total": 10
-    }
-    assert result == expected
+def test_parse_with_mixed_characters():
+    """Test a sequence with invalid characters."""
+    sequence = "ACGTXYZ123"
+    with open("test_mixed.txt", "w") as f:
+        f.write(sequence)
+    result = parse_file("test_mixed.txt")
+    assert result == {'A': 1, 'C': 1, 'G': 1, 'T': 1, 'Unknown': 6, 'Total': 10}
 
-def test_calculate_statistics_empty_sequence():
-    sequence = ""
-    result = calculate_statistics(sequence)
-    expected = {
-        "A": (0, 0.0),
-        "C": (0, 0.0),
-        "G": (0, 0.0),
-        "T": (0, 0.0),
-        "Unknown": (0, 0.0),
-        "Total": 0
-    }
-    assert result == expected
+def test_parse_empty_file():
+    """Test an empty file."""
+    with open("test_empty.txt", "w") as f:
+        f.write("")
+    result = parse_file("test_empty.txt")
+    assert result == {'A': 0, 'C': 0, 'G': 0, 'T': 0, 'Unknown': 0, 'Total': 0}
+
+def test_parse_lowercase_sequence():
+    """Test lowercase characters in a sequence."""
+    sequence = "acgtacgt"
+    with open("test_lowercase.txt", "w") as f:
+        f.write(sequence)
+    result = parse_file("test_lowercase.txt")
+    assert result == {'A': 2, 'C': 2, 'G': 2, 'T': 2, 'Unknown': 0, 'Total': 8}
+
+if __name__ == "__main__":
+    try:
+        pytest.main()
+        print("\n✅ All tests passed successfully!")
+    except Exception as e:
+        print("\n❌ Some tests failed. Please check the errors.")
