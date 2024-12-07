@@ -1,14 +1,15 @@
 import sys
 import os
+sys.argv = ['seq.py', 'a_seq.txt', 'b_seq.txt']
+
 
 def main():
-    # Get the list of file paths from the command line arguments
     args = sys.argv
     if len(args) < 2:
         print('No files received')
         return
     
-    file_names = args[1:]  # Exclude the script name
+    file_names = args[1:] 
     combined_results = {'A': 0, 'C': 0, 'G': 0, 'T': 0, 'Unknown': 0, 'Total': 0}
     
     for file_name in file_names:
@@ -17,7 +18,6 @@ def main():
             print(f"\n{file_name}")
             print_result(result)
             
-            # Update combined results
             for key in combined_results:
                 combined_results[key] += result[key]
         except FileNotFoundError:
@@ -60,3 +60,13 @@ def print_result(result):
 
 if __name__ == '__main__':
     main()
+    
+a_seq_content = """ACCGGTTXXXCCGGGTTTAAACCG"""
+b_seq_content = """ACCGGTGTTT"""
+
+with open('a_seq.txt', 'w') as file:
+    file.write(a_seq_content)
+
+with open('b_seq.txt', 'w') as file:
+    file.write(b_seq_content)
+
