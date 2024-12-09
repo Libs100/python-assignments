@@ -1,0 +1,11 @@
+date,database,term,max,total
+2024-12-09 20:20:46,genome,BRCA1,3,0
+2024-12-09 20:21:54,genome,TP53,2,0
+2024-12-09 20:22:07,genome,hemoglobin,2,0
+2024-12-09 20:22:31,genome,BRCA1,2,0
+2024-12-09 20:26:06,genome,p53,1,0
+2024-12-09 20:26:38,genome,BRCA1,1,0
+2024-12-09 20:26:48,genome,BRCA1,1,0
+2024-12-09 20:30:23,genome,BRCA1,3,0
+2024-12-09 20:36:38,genome,BRCA1,3,156,success
+2024-12-09 20:37:36,nucleotide,BRCA1,3,49195,success
