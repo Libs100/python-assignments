@@ -1,4 +1,5 @@
 import re
+import argparse
 from Bio import SeqIO
 
 def find_longest_repeated_subsequence(sequence):
@@ -23,28 +24,55 @@ def calculate_gc_content(sequence):
     c_count = sequence.count('C')
     return (g_count + c_count) / len(sequence) * 100 if len(sequence) > 0 else 0
 
-def analyze_file(file_path):
+def calculate_at_content(sequence):
     """
-    Reads a DNA sequence from a Fasta file and performs analyses.
+    Calculates the AT content of a DNA sequence.
+    """
+    a_count = sequence.count('A')
+    t_count = sequence.count('T')
+    return (a_count + t_count) / len(sequence) * 100 if len(sequence) > 0 else 0
+
+def print_divider():
+    print("\n" + "🔬" + "—" * 50 + "🔬")
+
+def analyze_file(file_path, find_repeats=False, calculate_gc=False, calculate_at=False):
+    """
+    Reads a DNA sequence from a file and performs analyses.
     """
     try:
         record = next(SeqIO.parse(file_path, "fasta"))  # Assumes FASTA format
     except Exception as e:
-        print(f"Error reading file: {e}")
+        print(f"❌ Error reading file: {e}")
         return
     
     sequence = str(record.seq).upper()
-    print(f"\nSequence from file: {file_path}")
-    print(f"Length of sequence: {len(sequence)}")
+    print_divider()
+    print(f"🌿 Analyzing sequence from file: {file_path}")
+    print(f"📏 Sequence length: {len(sequence)}")
     
-    # Perform analyses
-    longest_subsequence = find_longest_repeated_subsequence(sequence)
-    gc_content = calculate_gc_content(sequence)
+    if find_repeats:
+        longest_repeat = find_longest_repeated_subsequence(sequence)
+        print(f"🔁 Longest repeated subsequence: {longest_repeat if longest_repeat else 'None found'}")
     
-    print(f"\nLongest repeated subsequence: {longest_subsequence}")
-    print(f"GC content: {gc_content:.2f}%")
+    if calculate_gc:
+        gc = calculate_gc_content(sequence)
+        print(f"🧬 GC content: {gc:.2f}%")
+    
+    if calculate_at:
+        at = calculate_at_content(sequence)
+        print(f"🌟 AT content: {at:.2f}%")
+
+    print_divider()
+
+def main():
+    parser = argparse.ArgumentParser(description="🌟 DNA Sequence Analysis Tool 🌟")
+    parser.add_argument("file_path", type=str, help="Path to the FASTA file")
+    parser.add_argument("--duplicate", action="store_true", help="Find longest repeated subsequence")
+    parser.add_argument("--gc", action="store_true", help="Calculate GC content")
+    parser.add_argument("--at", action="store_true", help="Calculate AT content")
+    
+    args = parser.parse_args()
+    analyze_file(args.file_path, args.duplicate, args.gc, args.at)
 
 if __name__ == "__main__":
-    # Change the file path if needed
-    file_path = "example.fa"
-    analyze_file(file_path)
+    main()
