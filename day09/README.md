@@ -1,23 +1,12 @@
-# DNA Sequence Analysis Tool
+# 🧬 DNA Sequence Analysis Tool 🧬
 
 ## Overview
-This program analyzes DNA sequences stored in a FASTA file format. It performs two key analyses:
-1. **Finding the Longest Repeated Subsequence**: Identifies the longest subsequence that repeats itself within the input DNA sequence.
-2. **Calculating GC Content**: Computes the percentage of guanine (G) and cytosine (C) nucleotides in the DNA sequence.
-
-## Features
-- **Input**: Accepts a DNA sequence in FASTA format.
-- **Outputs**:
-  - Length of the DNA sequence.
-  - The longest repeated subsequence, if any.
-  - GC content of the sequence as a percentage.
+Analyze DNA sequences with style and precision! This tool provides the following features:
+1. **Longest Repeated Subsequence**: Find the longest repeated subsequence in your DNA.
+2. **GC Content Analysis**: Calculate the percentage of G and C nucleotides.
+3. **AT Content Analysis**: Calculate the percentage of A and T nucleotides.
 
 ## Requirements
-This program requires the following:
-- Python 3.x
-- [Biopython](https://biopython.org/) library for reading and parsing FASTA files.
-
-### Installation
-To install Biopython, run:
-```bash
-pip install biopython
+- Install the required library:
+  ```bash
+  pip install biopython
