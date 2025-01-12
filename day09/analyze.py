@@ -24,18 +24,23 @@ def calculate_gc_content(sequence):
     c_count = sequence.count('C')
     return (g_count + c_count) / len(sequence) * 100 if len(sequence) > 0 else 0
 
-def calculate_at_content(sequence):
+def count_palindromic_sequences(sequence):
     """
-    Calculates the AT content of a DNA sequence.
+    Counts the number of palindromic sequences in the DNA.
     """
-    a_count = sequence.count('A')
-    t_count = sequence.count('T')
-    return (a_count + t_count) / len(sequence) * 100 if len(sequence) > 0 else 0
+    count = 0
+    n = len(sequence)
+    for i in range(n):
+        for j in range(i + 4, n + 1):  # Palindromes must be at least 4 bases long
+            subseq = sequence[i:j]
+            if subseq == subseq[::-1]:  # Check if the sequence is a palindrome
+                count += 1
+    return count
 
 def print_divider():
     print("\n" + "🔬" + "—" * 50 + "🔬")
 
-def analyze_file(file_path, find_repeats=False, calculate_gc=False, calculate_at=False):
+def analyze_file(file_path, find_repeats=False, calculate_gc=False, count_palindromes=False):
     """
     Reads a DNA sequence from a file and performs analyses.
     """
@@ -58,9 +63,9 @@ def analyze_file(file_path, find_repeats=False, calculate_gc=False, calculate_at
         gc = calculate_gc_content(sequence)
         print(f"🧬 GC content: {gc:.2f}%")
     
-    if calculate_at:
-        at = calculate_at_content(sequence)
-        print(f"🌟 AT content: {at:.2f}%")
+    if count_palindromes:
+        palindrome_count = count_palindromic_sequences(sequence)
+        print(f"🧪 Number of palindromic sequences: {palindrome_count}")
 
     print_divider()
 
@@ -69,10 +74,10 @@ def main():
     parser.add_argument("file_path", type=str, help="Path to the FASTA file")
     parser.add_argument("--duplicate", action="store_true", help="Find longest repeated subsequence")
     parser.add_argument("--gc", action="store_true", help="Calculate GC content")
-    parser.add_argument("--at", action="store_true", help="Calculate AT content")
+    parser.add_argument("--palindromes", action="store_true", help="Count palindromic sequences")
     
     args = parser.parse_args()
-    analyze_file(args.file_path, args.duplicate, args.gc, args.at)
+    analyze_file(args.file_path, args.duplicate, args.gc, args.palindromes)
 
 if __name__ == "__main__":
     main()
